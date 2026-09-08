@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Installation Planning — Visual Walkthrough</title>
+<style>
+:root{
+  --purple:#8B5CF6;--purple-dark:#6D28D9;--purple-light:#EDE9FE;
+  --green:#10B981;--green-light:#D1FAE5;
+  --orange:#F59E0B;--orange-light:#FEF3C7;
+  --red:#EF4444;--red-light:#FEE2E2;
+  --blue:#3B82F6;--blue-light:#DBEAFE;
+  --gray50:#F9FAFB;--gray100:#F3F4F6;--gray200:#E5E7EB;
+  --gray300:#D1D5DB;--gray400:#9CA3AF;--gray500:#6B7280;
+  --gray600:#4B5563;--gray700:#374151;--gray800:#1F2937;--gray900:#111827;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--gray100);color:var(--gray800);line-height:1.6;}
+
+/* NAV */
+.topbar{background:var(--gray900);height:52px;display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:100;}
+.topbar .brand{color:#fff;font-weight:700;font-size:.95rem;}
+.topbar .tag{background:var(--purple);color:#fff;font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:999px;margin-left:12px;}
+
+/* HERO */
+.hero2{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 50%,#4c1d95 100%);padding:60px 24px 50px;text-align:center;position:relative;overflow:hidden;}
+.hero2::before{content:'';position:absolute;top:-60%;left:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%;}
+.hero2::after{content:'';position:absolute;bottom:-40%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,.1),transparent 70%);border-radius:50%;}
+.hero2 h1{font-size:2.4rem;font-weight:800;color:#fff;position:relative;z-index:1;}
+.hero2 h1 span{color:#C4B5FD;}
+.hero2 p{color:#A5B4FC;max-width:580px;margin:12px auto 0;font-size:.95rem;position:relative;z-index:1;}
+.hero2 .chip{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:6px 16px;border-radius:999px;font-size:.78rem;font-weight:600;margin-top:20px;position:relative;z-index:1;}
+
+/* TIMELINE */
+.timeline-wrap{max-width:900px;margin:0 auto;padding:40px 20px;}
+.timeline{position:relative;padding-left:48px;}
+.timeline::before{content:'';position:absolute;left:18px;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--purple),var(--green),var(--orange));border-radius:3px;}
+
+.t-step{position:relative;margin-bottom:36px;}
+.t-dot{position:absolute;left:-48px;top:0;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#fff;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.t-dot.green{background:var(--green);}
+.t-dot.blue{background:var(--blue);}
+.t-dot.orange{background:var(--orange);}
+.t-dot.purple{background:var(--purple);}
+.t-dot.red{background:var(--red);}
+
+.t-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--gray200);}
+.t-card-head{padding:16px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--gray100);}
+.t-card-head .step-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 10px;border-radius:999px;}
+.t-card-head .step-label.audit{background:var(--green-light);color:#065F46;}
+.t-card-head .step-label.sop{background:var(--purple-light);color:#5B21B6;}
+.t-card-head h3{font-size:1rem;font-weight:700;color:var(--gray800);}
+.t-card-body{padding:20px;}
+.t-card-body p{font-size:.88rem;color:var(--gray600);margin-bottom:14px;}
+.t-card-body .instr{background:var(--gray50);border:1px solid var(--gray200);border-radius:8px;padding:12px 16px;font-size:.84rem;color:var(--gray700);margin-bottom:16px;line-height:1.6;}
+.t-card-body .instr strong{color:var(--gray900);}
+
+/* SCREENSHOT */
+.screenshot{border:2px solid var(--gray200);border-radius:10px;overflow:hidden;margin:14px 0;background:var(--gray50);}
+.screenshot img{width:100%;display:block;}
+.screenshot .caption{font-size:.75rem;color:var(--gray400);text-align:center;padding:8px;background:var(--gray50);border-top:1px solid var(--gray100);}
+
+/* PHONE FRAME */
+.phone-frame{max-width:380px;margin:0 auto;border:8px solid var(--gray800);border-radius:28px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.15);background:#fff;}
+.phone-frame img{width:100%;display:block;}
+.phone-frame.landscape{max-width:700px;border-radius:16px;border-width:6px;}
+
+/* TABLE IMAGE */
+.table-frame{border:2px solid var(--gray200);border-radius:10px;overflow:hidden;margin:14px 0;}
+.table-frame img{width:100%;display:block;}
+
+/* SECTION */
+.sec{padding:48px 24px;}
+.sec:nth-child(even){background:#fff;}
+.sec-label{font-size:1.4rem;font-weight:800;color:var(--gray900);margin-bottom:6px;}
+.sec-sub{color:var(--gray500);font-size:.88rem;margin-bottom:24px;max-width:700px;}
+
+/* IMAGES FOLDER NOTE */
+.folder-note{background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;padding:16px 20px;margin:20px 0;display:flex;gap:12px;align-items:flex-start;}
+.folder-note .icon{font-size:1.2rem;flex-shrink:0;}
+.folder-note .text{font-size:.84rem;color:#78350F;line-height:1.6;}
+.folder-note code{background:rgba(0,0,0,.06);padding:1px 6px;border-radius:4px;font-size:.8rem;}
+
+/* FOOTER */
+.footer{background:var(--gray900);color:var(--gray400);text-align:center;padding:28px 24px;font-size:.82rem;}
+.footer a{color:var(--gray300);text-decoration:none;margin:0 10px;}
+.footer a:hover{color:#fff;}
+
+@media print{.topbar{display:none;}.hero2{background:#fff!important;}.t-card{break-inside:avoid;box-shadow:none;border:1px solid #ddd;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="brand">&#9889; KlimaShift (Avrio Energy)</span>
+  <span class="tag">VISUAL GUIDE</span>
+</div>
+
+<div class="hero2">
+  <h1>Installation Planning<br/><span>Visual Walkthrough</span></h1>
+  <p>Step-by-step visual guide with actual Operations App screenshots — from login to MCB mapping and final channel planning.</p>
+  <div class="chip">11 Steps &#8226; With Screenshots &#8226; End-to-End</div>
+</div>
+
+<!-- IMAGE FOLDER NOTE -->
+<div class="sec" style="padding-bottom:0;">
+  <div style="max-width:900px;margin:0 auto;">
+    <div class="folder-note">
+      <span class="icon">&#128193;</span>
+      <div class="text">
+        <strong>Images Folder:</strong> Save all screenshot images in <code>images/audit-flow/</code> folder with the filenames listed below each step. The HTML references these files directly.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TIMELINE WALKTHROUGH                                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="timeline-wrap">
+<div class="timeline">
+
+<!-- STEP 1: CREATE SHEET -->
+<div class="t-step">
+  <div class="t-dot green">1</div>
+  <div class="t-card">
+    <div class="t-card-head">
+      <span class="step-label audit">Audit</span>
+      <h3>Create Google Sheet</h3>
+    </div>
+    <div class="t-card-body">
+      <p>Create a new Google Sheet named with the client name and location. Add column headers for the MCB Mapping table.</p>
+      <div class="instr">
+        <strong>Sheet Name:</strong> [Client Name] — [Location] — Installation Planning<br/>
+        <strong>Headers:</strong> MCB Name | Panel Name | Type of Load | Asset Name | MCB Rating (A) | Phase | Energy Meter Channel | Temperature Monitor | Controller
+      </div>
+      <div class="table-frame">
+        <img src="images/audit-flow/01-mcb-mapping-table.png" alt="MCB Mapping Table Example" onerror="this.parentElement.style.display='none'"/>
+        <div class="caption">Image 1 — Example MCB Mapping Table (Google Sheet)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 2: OPEN OPS APP -->
+<div class="t-step">
+  <div class="t-dot green">2</div>
+  <div class="t-card">
+    <div class="t-card-head">
+      <span class="step-label audit">Audit</span>
+      <h3>Open Operations App — Client List</h3>
+    </div>
+    <div class="t-card-body">
+      <p>Open the Operations App on your phone. After login, you will see the <strong>Clients</strong> screen with all available clients listed.</p>
+      <div class="phone-frame">
+        <img src="images/audit-flow/02-clients-list.png" alt="Operations App - Clients List" onerror="this.parentElement.style.display='none'"/>
+      </div>
+      <div class="caption" style="text-align:center;font-size:.75rem;color:var(--gray400);margin-top:8px;">Image 3 — Operations App: Clients list after login</div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 3: SEARCH CLIENT -->
+<div class="t-step">
+  <div class="t-dot green">3</div>
+  <div class="t-card">
+    <div class="t-card-head">
+      <span class="step-label audit">Audit</span>
+      <h3>Search for the Client</h3>
+    </div>
+    <div class="t-card-body">
+      <p>Use the search bar to type the client name. In this example, we search for <strong>"Pressto"</strong>. Tap on the client to proceed.</p>
+      <div class="phone-frame">
+        <img src="images/audit-flow/03-search-client.png" alt="Search Pressto Client" onerror="this.parentElement.style.display='none'"/>
+      </div>
+      <div class="caption" style="text-align:center;font-size:.75rem;color:var(--gray400);margin-top:8px;">Image 4 — Searching "Pressto" in the client list</div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 4: SELECT LOCATION -->
+<div class="t-step">
+  <div class="t-dot green">4</div>
+  <div class="t-card">
+    <div class="t-card-head">
+      <span class="step-label audit">Audit</span>
+      <h3>Select the Location / Store</h3>
+    </div>
+    <div class="t-card-body">
+      <p>After selecting the client, you will see all their locations/stores. Search for or select the specific location for which installation planning needs to be done.</p>
+      <div class="phone-frame">
+        <img src="images/audit-flow/04-locations-list.png" alt="Locations List" onerror="this.parentElement.style.display='none'"/>
+      </div>
+      <div class="caption" style="text-align:center;font-size:.75rem;color:var(--gray400);margin-top:8px;">Image 5 — All stores/locations for the client</div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 5: SITE OPENED -->
+<div class="t-step">
+  <div class="t-dot blue">5</div>
+  <div class="t-card">
+    <div class="t-card-head">
+      <span class="step-label audit">Audit</span>
+      <h3>Site Opened — Audit Progress Overview</h3>
+    </div>
+    <div class="t-card-body">
+      <p>After clicking on a location, the site dashboard opens showing <strong>Audit Progress</strong> with different modules: Building Audit, Asset Audit, Electrical Panel, and MCB Mapping.</p>
+      <div class="phone-frame">
+        <img src="images/audit-flow/05-site-audit-progress.png" alt="Site Audit Progress" onerror="this.parentElement.style.display='none'"/>
+      </div>
+      <div class="caption" style="text-align:center;font-size:.75rem;color:var(--gray400);margin-top:8px;">Image 6 — Site opened showing audit modules</div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 6: START AUDIT -->
+<div class="t-step">
+  <div class="t-dot blue">6</div>
+  <div class="t-card">
+    <div class="t-card-head">
+      <span class="step-label audit">Audit</span>
+      <h3>Start Audit</h3>
+    </div>
+    <div class="t-card-body">
+      <p>Click on <strong>Audit Progress</strong> to open the detailed audit screen. You will see the <strong>"Start Audit"</strong> button at the bottom. Click it to begin the audit session.</p>
+      <div class="phone-frame">
+        <img src="images/audit-flow/06-start-audit.png" alt="Start Audit Button" onerror="this.parentElement.style.display='none'"/>
+      </div>
+      <div class="caption" style="text-align:center;font-size:.75rem;color:var(--gray400);margin-top:8px;">Image 7 — Audit Progress screen with "Start Audit" button</div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 7: MCB MAPPING -->
+<div class="t-step">
+  <div class="t-dot orange">7</div>
+  <div class="t-card">
+    <div class="t-card-head">
+      <span class="step-label audit">Audit</span>
+      <h3>MCB Mapping — Select Panel</h3>
+    </div>
+    <div class="t-card-body">
+      <p>After starting the audit, click on <strong>MCB Mapping</strong>. You will see the panels listed (e.g., Panel 1 — MDB with 25 MCBs, Panel 2 — Sub DB with 2 MCBs). Click on the panel you want to map.</p>
+      <div class="phone-frame">
+        <img src="images/audit-flow/07-mcb-mapping-panels.png" alt="MCB Mapping Panels" onerror="this.parentElement.style.display='none'"/>
+      </div>
+      <div class="caption" style="text-align:center;font-size:.75rem;color:var(--gray400);margin-top:8px;">Image 8 — MCB Mapping: Panel selection screen</div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 8: PANEL MCBs -->
+<div class="t-step">
+  <div class="t-dot orange">8</div>
+  <div class="t-card">
+    <div class="t-card-head">
+      <span class="step-label audit">Audit</span>
+      <h3>View All MCBs in Panel</h3>
+    </div>
+    <div class="t-card-body">
+      <p>After clicking on a panel, all MCBs are displayed in a grid. Each MCB shows its <strong>name</strong>, <strong>phase</strong>, <strong>rating</strong>, and <strong>mapping status</strong> (Mapped or Spare). Note all this data in your Google Sheet.</p>
+      <div class="phone-frame">
+        <img src="images/audit-flow/08-panel-mcbs.png" alt="Panel MCBs Grid" onerror="this.parentElement.style.display='none'"/>
+      </div>
+      <div class="caption" style="text-align:center;font-size:.75rem;color:var(--gray400);margin-top:8px;">Image 9/10 — All MCBs displayed in the panel grid</div>
+      <div class="instr" style="margin-top:14px;">
+        <strong>For each MCB, note in Google Sheet:</strong><br/>
+        &#8226; MCB Name (e.g., MCB1)<br/>
+        &#8226; Panel Name (e.g., Panel 1)<br/>
+        &#8226; Phase (ABC, A, B, or C)<br/>
+        &#8226; MCB Rating (e.g., 40A, 32A)<br/>
+        &#8226; Whether it is <strong>Mapped</strong> (equipment linked) or <strong>Spare</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 9: MCB DETAIL -->
+<div class="t-step">
+  <div class="t-dot orange">9</div>
+  <div class="t-card">
+    <div class="t-card-head">
+      <span class="step-label audit">Audit</span>
+      <h3>Click on MCB — View Linked Equipment</h3>
+    </div>
+    <div class="t-card-body">
+      <p>Click on an individual MCB to see what equipment is linked to it. The mapping screen shows already mapped equipment and allows you to search and add more. Note the <strong>Asset Name</strong> in your Google Sheet.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div>
+          <div class="phone-frame">
+            <img src="images/audit-flow/09-mcb-detail.png" alt="MCB Detail with Equipment" onerror="this.parentElement.style.display='none'"/>
+          </div>
+          <div class="caption" style="text-align:center;font-size:.75rem;color:var(--gray400);margin-top:8px;">MCB1 mapped to "Cassette AC"</div>
+        </div>
+        <div>
+          <div class="phone-frame">
+            <img src="images/audit-flow/13-mcb-mapping-detail.png" alt="MCB Mapping Detail" onerror="this.parentElement.style.display='none'"/>
+          </div>
+          <div class="caption" style="text-align:center;font-size:.75rem;color:var(--gray400);margin-top:8px;">Add more equipment to MCB</div>
+        </div>
+      </div>
+      <div class="instr" style="margin-top:14px;">
+        <strong>In this example:</strong> MCB1 is linked to "Cassette AC". Additional equipment like "Exhaust" and "LED" can be added. The <strong>Type of Load</strong> can be determined from the equipment category. Once all MCBs are mapped, proceed to End Audit.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 10: END AUDIT -->
+<div class="t-step">
+  <div class="t-dot red">10</div>
+  <div class="t-card">
+    <div class="t-card-head">
+      <span class="step-label audit">Audit</span>
+      <h3>End Audit</h3>
+    </div>
+    <div class="t-card-body">
+      <p>Once all panels and MCBs are documented, go back and click <strong>"End Audit"</strong>. Do NOT end until all panels are fully mapped.</p>
+      <div class="phone-frame">
+        <img src="images/audit-flow/10-end-audit.png" alt="End Audit Button" onerror="this.parentElement.style.display='none'"/>
+      </div>
+      <div class="caption" style="text-align:center;font-size:.75rem;color:var(--gray400);margin-top:8px;">"End Audit" button — click only after all panels mapped</div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 11: FINAL PLANNING TABLE -->
+<div class="t-step">
+  <div class="t-dot purple">11</div>
+  <div class="t-card">
+    <div class="t-card-head">
+      <span class="step-label sop">Planning</span>
+      <h3>Final Installation Planning Table</h3>
+    </div>
+    <div class="t-card-body">
+      <p>After completing the audit, create the <strong>Installation Planning Table</strong> beside the MCB Mapping table. Map each MCB to its Energy Meter Channel, CT sensor, and meter using the Technical SOP rules.</p>
+      <div class="phone-frame landscape">
+        <img src="images/audit-flow/01-mcb-mapping-table.png" alt="Final Planning Table" onerror="this.parentElement.style.display='none'"/>
+      </div>
+      <div class="caption" style="text-align:center;font-size:.75rem;color:var(--gray400);margin-top:8px;">Image 1 — Final Installation Planning Table</div>
+      <div class="instr" style="margin-top:14px;">
+        <strong>Planning Table Columns:</strong> Meter Name | Channel | Global Channel | Phase | MCBID | Asset | CT<br/>
+        <strong>Rules:</strong> C1-C3 reserved for mains. MCBs mapped sequentially from C4. 3-phase MCBs use 3 consecutive channels. Same-phase MCBs can be combined.
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /timeline -->
+</div><!-- /timeline-wrap -->
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- REFERENCE: BOTH TABLES SIDE BY SIDE                        -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="sec" style="background:#fff;">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div class="sec-label">Reference: Both Tables</div>
+    <div class="sec-sub">The MCB Mapping table (from audit) and the Installation Planning table (from SOP) sit side by side in the same Google Sheet.</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div>
+        <div style="font-weight:700;font-size:.9rem;color:var(--gray800);margin-bottom:10px;">Table 1 — MCB Mapping (from Audit)</div>
+        <div class="table-frame">
+          <img src="images/audit-flow/01-mcb-mapping-table.png" alt="MCB Mapping Table" onerror="this.parentElement.innerHTML='<div style=padding:40px;text-align:center;color:var(--gray400);font-size:.85rem;>Save image as<br><code>01-mcb-mapping-table.png</code></div>'"/>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:.9rem;color:var(--gray800);margin-bottom:10px;">Table 2 — Installation Planning (from SOP)</div>
+        <div class="table-frame">
+          <img src="images/audit-flow/11-planning-table.png" alt="Planning Table" onerror="this.parentElement.innerHTML='<div style=padding:40px;text-align:center;color:var(--gray400);font-size:.85rem;>Save image as<br><code>11-planning-table.png</code></div>'"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- INSTALLATION PLANNING — HOW TO DO IT                      -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="sec" style="background:linear-gradient(135deg,#1e1b4b,#312e81);padding:48px 24px;">
+  <div style="max-width:900px;margin:0 auto;text-align:center;">
+    <div style="display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:6px 16px;border-radius:999px;font-size:.78rem;font-weight:600;margin-bottom:16px;">PART B — TECHNICAL SOP</div>
+    <h2 style="color:#fff;font-size:1.8rem;font-weight:800;margin-bottom:8px;">How to Do Installation Planning</h2>
+    <p style="color:#A5B4FC;font-size:.92rem;max-width:600px;margin:0 auto;">From audit data to final channel mapping — complete step-by-step procedure with rules, examples, and checklists.</p>
+  </div>
+</div>
+
+<div class="sec" style="padding-top:32px;">
+
+  <div style="max-width:900px;margin:0 auto;">
+
+    <!-- SOP STEP 1: ARCHITECTURE -->
+    <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--gray200);margin-bottom:24px;overflow:hidden;">
+      <div style="padding:16px 20px;background:var(--purple);display:flex;align-items:center;gap:12px;">
+        <span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;">S1</span>
+        <span style="color:#fff;font-weight:700;font-size:1rem;">System Architecture</span>
+      </div>
+      <div style="padding:20px;">
+        <p style="font-size:.88rem;color:var(--gray600);margin-bottom:14px;">The system uses <strong>3 Energy Meters</strong> with <strong>5 channels each</strong> = <strong>15 total channels (C1–C15)</strong>. Channels C1, C2, C3 are permanently reserved for 3-Phase Incoming Mains.</p>
+        <div style="background:#1a1a2e;color:#a8dadc;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:.8rem;line-height:1.8;overflow-x:auto;white-space:pre;">METER 1:  C1(Mains-A)  C2(Mains-B)  C3(Mains-C)  C4(?)  C5(?)
+METER 2:  C6(?)        C7(?)        C8(?)        C9(?)  C10(?)
+METER 3:  C11(?)       C12(?)       C13(?)       C14(?) C15(?)
+
+C1, C2, C3 = RESERVED for Mains (NEVER reassign)
+C4 – C15   = Available for MCB mapping (12 channels)</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;">
+          <div style="background:var(--blue-light);border-radius:8px;padding:12px;text-align:center;"><div style="font-weight:700;color:var(--blue);font-size:.9rem;">Meter 1</div><div style="font-size:.78rem;color:var(--gray500);">C1–C5 (2 free)</div></div>
+          <div style="background:var(--purple-light);border-radius:8px;padding:12px;text-align:center;"><div style="font-weight:700;color:var(--purple);font-size:.9rem;">Meter 2</div><div style="font-size:.78rem;color:var(--gray500);">C6–C10 (5 free)</div></div>
+          <div style="background:var(--green-light);border-radius:8px;padding:12px;text-align:center;"><div style="font-weight:700;color:var(--green);font-size:.9rem;">Meter 3</div><div style="font-size:.78rem;color:var(--gray500);">C11–C15 (5 free)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOP STEP 2: RESERVE MAINS -->
+    <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--gray200);margin-bottom:24px;overflow:hidden;">
+      <div style="padding:16px 20px;background:var(--red);display:flex;align-items:center;gap:12px;">
+        <span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;">S2</span>
+        <span style="color:#fff;font-weight:700;font-size:1rem;">Reserve Mains Channels (C1, C2, C3)</span>
+      </div>
+      <div style="padding:20px;">
+        <div style="background:#FEF2F2;border:2px solid #FECACA;border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+          <div style="font-weight:700;color:#991B1B;font-size:.9rem;margin-bottom:6px;">&#128683; MANDATORY — NEVER reassign these channels</div>
+          <div style="font-size:.85rem;color:#7F1D1D;"><strong>C1 = Phase A Mains</strong> &nbsp;|&nbsp; <strong>C2 = Phase B Mains</strong> &nbsp;|&nbsp; <strong>C3 = Phase C Mains</strong></div>
+        </div>
+        <p style="font-size:.85rem;color:var(--gray600);">These 3 channels are locked for monitoring the incoming 3-phase supply. All MCB mapping starts from <strong>C4</strong>.</p>
+      </div>
+    </div>
+
+    <!-- SOP STEP 3: IDENTIFY PHASES -->
+    <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--gray200);margin-bottom:24px;overflow:hidden;">
+      <div style="padding:16px 20px;background:var(--orange);display:flex;align-items:center;gap:12px;">
+        <span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;">S3</span>
+        <span style="color:#fff;font-weight:700;font-size:1rem;">Identify Phase for Each MCB</span>
+      </div>
+      <div style="padding:20px;">
+        <p style="font-size:.88rem;color:var(--gray600);margin-bottom:12px;">From the audit data, group every MCB by its phase:</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+          <div style="background:var(--blue-light);border-radius:8px;padding:10px;text-align:center;"><div style="font-weight:700;color:var(--blue);">ABC</div><div style="font-size:.75rem;color:var(--gray500);">3-Phase</div></div>
+          <div style="background:#FEF3C7;border-radius:8px;padding:10px;text-align:center;"><div style="font-weight:700;color:#92400E;">A</div><div style="font-size:.75rem;color:var(--gray500);">Phase A</div></div>
+          <div style="background:#D1FAE5;border-radius:8px;padding:10px;text-align:center;"><div style="font-weight:700;color:#065F46;">B</div><div style="font-size:.75rem;color:var(--gray500);">Phase B</div></div>
+          <div style="background:#EDE9FE;border-radius:8px;padding:10px;text-align:center;"><div style="font-weight:700;color:#5B21B6;">C</div><div style="font-size:.75rem;color:var(--gray500);">Phase C</div></div>
+        </div>
+        <p style="font-size:.85rem;color:var(--gray600);margin-top:12px;">Count total single-phase vs. three-phase MCBs before proceeding.</p>
+      </div>
+    </div>
+
+    <!-- SOP STEP 4: MAP 3-PHASE -->
+    <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--gray200);margin-bottom:24px;overflow:hidden;">
+      <div style="padding:16px 20px;background:var(--blue);display:flex;align-items:center;gap:12px;">
+        <span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;">S4</span>
+        <span style="color:#fff;font-weight:700;font-size:1rem;">Map Three-Phase MCBs (Channel Triplets)</span>
+      </div>
+      <div style="padding:20px;">
+        <div style="background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.84rem;color:#78350F;">
+          <strong>Rule:</strong> Each 3-phase MCB requires <strong>3 consecutive channels</strong> — one for Phase A, one for Phase B, one for Phase C.
+        </div>
+        <p style="font-size:.88rem;color:var(--gray600);margin-bottom:12px;">Start from <strong>C4</strong>. Assign the next 3 consecutive channels:</p>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:.84rem;margin-bottom:14px;">
+            <thead><tr style="background:var(--gray700);color:#fff;"><th style="padding:8px 14px;text-align:left;">MCB</th><th style="padding:8px 14px;text-align:left;">Phase A Channel</th><th style="padding:8px 14px;text-align:left;">Phase B Channel</th><th style="padding:8px 14px;text-align:left;">Phase C Channel</th></tr></thead>
+            <tbody>
+              <tr><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);">MCB1 (3-ph)</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);font-weight:700;color:var(--blue);">C4</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);font-weight:700;color:var(--blue);">C5</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);font-weight:700;color:var(--blue);">C6</td></tr>
+              <tr style="background:var(--gray50);"><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);">MCB2 (3-ph)</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);font-weight:700;color:var(--blue);">C7</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);font-weight:700;color:var(--blue);">C8</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);font-weight:700;color:var(--blue);">C9</td></tr>
+              <tr><td style="padding:8px 14px;">MCB3 (3-ph)</td><td style="padding:8px 14px;font-weight:700;color:var(--blue);">C10</td><td style="padding:8px 14px;font-weight:700;color:var(--blue);">C11</td><td style="padding:8px 14px;font-weight:700;color:var(--blue);">C12</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOP STEP 5: MAP SINGLE-PHASE -->
+    <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--gray200);margin-bottom:24px;overflow:hidden;">
+      <div style="padding:16px 20px;background:var(--teal);display:flex;align-items:center;gap:12px;">
+        <span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;">S5</span>
+        <span style="color:#fff;font-weight:700;font-size:1rem;">Map Single-Phase MCBs</span>
+      </div>
+      <div style="padding:20px;">
+        <p style="font-size:.88rem;color:var(--gray600);margin-bottom:12px;">After all 3-phase MCBs are mapped, assign single-phase MCBs to the <strong>next available channel matching their phase</strong>.</p>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:.84rem;">
+            <thead><tr style="background:var(--gray700);color:#fff;"><th style="padding:8px 14px;text-align:left;">MCB</th><th style="padding:8px 14px;text-align:left;">Phase</th><th style="padding:8px 14px;text-align:left;">Assigned Channel</th></tr></thead>
+            <tbody>
+              <tr><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);">MCB5 (single)</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);">A</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);font-weight:700;color:var(--teal);">Next available A-channel</td></tr>
+              <tr style="background:var(--gray50);"><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);">MCB6 (single)</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);">B</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);font-weight:700;color:var(--teal);">Next available B-channel</td></tr>
+              <tr><td style="padding:8px 14px;">MCB7 (single)</td><td style="padding:8px 14px;">A</td><td style="padding:8px 14px;font-weight:700;color:var(--teal);">Next available A-channel</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOP STEP 6: COMBINATION RULES -->
+    <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--gray200);margin-bottom:24px;overflow:hidden;">
+      <div style="padding:16px 20px;background:var(--purple);display:flex;align-items:center;gap:12px;">
+        <span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;">S6</span>
+        <span style="color:#fff;font-weight:700;font-size:1rem;">Apply Combination Rules</span>
+      </div>
+      <div style="padding:20px;">
+        <p style="font-size:.88rem;color:var(--gray600);margin-bottom:14px;">Combine compatible MCBs onto the same channel(s) to optimize usage. <strong style="color:var(--red);">NEVER combine different phases.</strong></p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div style="background:var(--gray50);border:1px solid var(--gray200);border-radius:8px;padding:14px;">
+            <div style="font-weight:700;font-size:.85rem;color:var(--gray800);margin-bottom:8px;">3-Phase + 3-Phase</div>
+            <div style="font-size:.82rem;color:var(--gray600);line-height:1.6;">Two 3-phase MCBs with same phase legs → share same 3 channels.<br/><br/><strong>Example:</strong> MCB3 + MCB4 both on C4(A), C5(B), C6(C)</div>
+          </div>
+          <div style="background:var(--gray50);border:1px solid var(--gray200);border-radius:8px;padding:14px;">
+            <div style="font-weight:700;font-size:.85rem;color:var(--gray800);margin-bottom:8px;">3-Phase + Single-Phase</div>
+            <div style="font-size:.82rem;color:var(--gray600);line-height:1.6;">Single-phase MCB combines with 3-phase leg IF same phase.<br/><br/><strong>Example:</strong> MCB6 (single, A) + MCB5 (3-ph, A leg) on C7</div>
+          </div>
+          <div style="background:var(--gray50);border:1px solid var(--gray200);border-radius:8px;padding:14px;">
+            <div style="font-weight:700;font-size:.85rem;color:var(--gray800);margin-bottom:8px;">Single + Single (adjacent)</div>
+            <div style="font-size:.82rem;color:var(--gray600);line-height:1.6;">Adjacent single-phase MCBs, same phase → share channel.<br/><br/><strong>Example:</strong> MCB7 (A) + MCB8 (A) on C10</div>
+          </div>
+          <div style="background:#FEF2F2;border:2px solid #FECACA;border-radius:8px;padding:14px;">
+            <div style="font-weight:700;font-size:.85rem;color:#991B1B;margin-bottom:8px;">&#128683; NEVER DO THIS</div>
+            <div style="font-size:.82rem;color:#7F1D1D;line-height:1.6;">Different phases on same channel causes <strong>phase cancellation</strong>, corrupted readings, and equipment hazard.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOP STEP 7: CT SIZING -->
+    <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--gray200);margin-bottom:24px;overflow:hidden;">
+      <div style="padding:16px 20px;background:var(--green);display:flex;align-items:center;gap:12px;">
+        <span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;">S7</span>
+        <span style="color:#fff;font-weight:700;font-size:1rem;">Assign CT Sizing</span>
+      </div>
+      <div style="padding:20px;">
+        <div style="background:var(--green-light);border:1px solid #A7F3D0;border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.85rem;color:#065F46;">
+          <strong>Formula:</strong> CT Rating ≥ Sum of all MCB ratings on that channel + <strong>20% safety margin</strong>
+        </div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:.84rem;">
+            <thead><tr style="background:var(--gray700);color:#fff;"><th style="padding:8px 14px;text-align:left;">MCB Rating</th><th style="padding:8px 14px;text-align:left;">Standard CT</th><th style="padding:8px 14px;text-align:left;">With 20% Margin</th></tr></thead>
+            <tbody>
+              <tr><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);">20A</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);">20A</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);font-weight:700;color:var(--green);">25A</td></tr>
+              <tr style="background:var(--gray50);"><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);">32A</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);">32A</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);font-weight:700;color:var(--green);">40A</td></tr>
+              <tr><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);">40A</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);">40A</td><td style="padding:8px 14px;border-bottom:1px solid var(--gray200);font-weight:700;color:var(--green);">50A</td></tr>
+              <tr style="background:var(--gray50);"><td style="padding:8px 14px;">63A</td><td style="padding:8px 14px;">63A</td><td style="padding:8px 14px;font-weight:700;color:var(--green);">80A</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:14px;background:var(--gray50);border:1px solid var(--gray200);border-radius:8px;padding:12px 16px;font-size:.84rem;color:var(--gray600);">
+          <strong>Combined channels example:</strong> MCB1 (40A) + MCB2 (40A) on C4 = 80A total → use <strong>100A CT</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOP STEP 8: COMPLETE TABLE -->
+    <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--gray200);margin-bottom:24px;overflow:hidden;">
+      <div style="padding:16px 20px;background:var(--gray800);display:flex;align-items:center;gap:12px;">
+        <span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;">S8</span>
+        <span style="color:#fff;font-weight:700;font-size:1rem;">Complete the Installation Planning Table</span>
+      </div>
+      <div style="padding:20px;">
+        <p style="font-size:.88rem;color:var(--gray600);margin-bottom:14px;">Fill in the final planning table in the Google Sheet beside the MCB Mapping table:</p>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:.82rem;">
+            <thead><tr style="background:var(--gray700);color:#fff;"><th style="padding:8px 12px;text-align:left;">Meter Name</th><th style="padding:8px 12px;text-align:left;">Channel</th><th style="padding:8px 12px;text-align:left;">Global CH</th><th style="padding:8px 12px;text-align:left;">Phase</th><th style="padding:8px 12px;text-align:left;">MCBID</th><th style="padding:8px 12px;text-align:left;">Asset</th><th style="padding:8px 12px;text-align:left;">CT</th></tr></thead>
+            <tbody>
+              <tr style="background:#DBEAFE;"><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">Meter 1</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">I1</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);font-weight:700;">C1</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">A</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);color:var(--gray400);">RESERVED</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">Mains</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">300</td></tr>
+              <tr style="background:#DBEAFE;"><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);"></td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">I2</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);font-weight:700;">C2</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">B</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);color:var(--gray400);">RESERVED</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">Mains</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">300</td></tr>
+              <tr style="background:#DBEAFE;"><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);"></td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">I3</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);font-weight:700;">C3</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">C</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);color:var(--gray400);">RESERVED</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">Mains</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">300</td></tr>
+              <tr><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);"></td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">I4</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);font-weight:700;">C4</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">A</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);font-weight:600;">MCB1, MCB2</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">Dryer, Indoor Unit</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">100</td></tr>
+              <tr style="background:var(--gray50);"><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);"></td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">I5</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);font-weight:700;">C5</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">B</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);font-weight:600;">MCB1, MCB2</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">Dryer, Indoor Unit</td><td style="padding:7px 12px;border-bottom:1px solid var(--gray200);">100</td></tr>
+              <tr><td style="padding:7px 12px;">Meter 2</td><td style="padding:7px 12px;">I1</td><td style="padding:7px 12px;font-weight:700;">C6</td><td style="padding:7px 12px;">C</td><td style="padding:7px 12px;font-weight:600;">MCB1, MCB2</td><td style="padding:7px 12px;">Dryer, Indoor Unit</td><td style="padding:7px 12px;">100</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOP STEP 9: ENGINEERING RULES -->
+    <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--gray200);margin-bottom:24px;overflow:hidden;">
+      <div style="padding:16px 20px;background:#7F1D1D;display:flex;align-items:center;gap:12px;">
+        <span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;">S9</span>
+        <span style="color:#fff;font-weight:700;font-size:1rem;">Engineering Rules — Quick Reference</span>
+      </div>
+      <div style="padding:20px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div>
+            <div style="font-weight:700;color:var(--green);font-size:.9rem;margin-bottom:10px;">&#10003; CAN DO</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--green);">1.</strong> Reserve C1, C2, C3 for Mains</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--green);">2.</strong> Map sequentially from C4</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--green);">3.</strong> Single-phase → matching-phase channel</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--green);">4.</strong> 3-phase → 3 consecutive channels</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--green);">5.</strong> Combine same-phase adjacent MCBs</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--green);">6.</strong> CT ≥ channel load + 20% margin</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--green);">7.</strong> Document everything</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--green);">8.</strong> Checklist before power-on</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-weight:700;color:var(--red);font-size:.9rem;margin-bottom:10px;">&#10007; WHAT NOT TO DO</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--red);">1.</strong> NEVER assign MCBs to C1, C2, C3</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--red);">2.</strong> NEVER combine different phases on same channel</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--red);">3.</strong> NEVER skip channels in 3-phase triplet</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--red);">4.</strong> NEVER assign 3-phase to less than 3 channels</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--red);">5.</strong> NEVER use undersized CT</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--red);">6.</strong> NEVER power on without checklist</div>
+              <div style="font-size:.82rem;color:var(--gray700);"><strong style="color:var(--red);">7.</strong> NEVER leave channels undocumented</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOP STEP 10: PRE POWER-ON CHECKLIST -->
+    <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--gray200);margin-bottom:24px;overflow:hidden;">
+      <div style="padding:16px 20px;background:var(--orange);display:flex;align-items:center;gap:12px;">
+        <span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;">S10</span>
+        <span style="color:#fff;font-weight:700;font-size:1rem;">Pre Power-On Checklist</span>
+      </div>
+      <div style="padding:20px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div>
+            <div style="font-weight:700;color:var(--gray800);font-size:.85rem;margin-bottom:8px;">CT Direction &amp; Phase</div>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> All CTs with correct arrow direction</label>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> INPUT side arrow points OUT</label>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> OUTPUT side arrow points IN</label>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> C1 = Phase A mains</label>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> C2 = Phase B mains</label>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> C3 = Phase C mains</label>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> No cross-phase combinations</label>
+          </div>
+          <div>
+            <div style="font-weight:700;color:var(--gray800);font-size:.85rem;margin-bottom:8px;">Wiring &amp; Documentation</div>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> All 10-pin connectors seated</label>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> LAN cables connected, link lights ON</label>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> BasicR2 on contactor INPUT side</label>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> No exposed wire strands</label>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> All terminal screws tight</label>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> Planning table complete</label>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--gray600);margin-bottom:6px;"><input type="checkbox" style="accent-color:var(--green);"/> CT sizes verified</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOP STEP 11: POST POWER-ON -->
+    <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--gray200);margin-bottom:24px;overflow:hidden;">
+      <div style="padding:16px 20px;background:var(--green);display:flex;align-items:center;gap:12px;">
+        <span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;">S11</span>
+        <span style="color:#fff;font-weight:700;font-size:1rem;">Post Power-On Verification</span>
+      </div>
+      <div style="padding:20px;">
+        <label style="display:flex;gap:8px;align-items:flex-start;font-size:.84rem;color:var(--gray600);margin-bottom:8px;"><input type="checkbox" style="accent-color:var(--green);"/> Mains readings on C1, C2, C3 present and balanced</label>
+        <label style="display:flex;gap:8px;align-items:flex-start;font-size:.84rem;color:var(--gray600);margin-bottom:8px;"><input type="checkbox" style="accent-color:var(--green);"/> Each MCB channel shows non-zero reading when load is ON</label>
+        <label style="display:flex;gap:8px;align-items:flex-start;font-size:.84rem;color:var(--gray600);margin-bottom:8px;"><input type="checkbox" style="accent-color:var(--green);"/> No channel shows negative reading (CT direction error)</label>
+        <label style="display:flex;gap:8px;align-items:flex-start;font-size:.84rem;color:var(--gray600);margin-bottom:8px;"><input type="checkbox" style="accent-color:var(--green);"/> No channel shows zero when load is ON (wiring error)</label>
+        <label style="display:flex;gap:8px;align-items:flex-start;font-size:.84rem;color:var(--gray600);margin-bottom:8px;"><input type="checkbox" style="accent-color:var(--green);"/> All meters online and communicating</label>
+        <label style="display:flex;gap:8px;align-items:flex-start;font-size:.84rem;color:var(--gray600);"><input type="checkbox" style="accent-color:var(--green);"/> No CT overheating (check after 15 min)</label>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- IMAGE SAVING INSTRUCTIONS                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="sec">
+  <div style="max-width:900px;margin:0 auto;">
+    <div class="sec-label">Image Saving Instructions</div>
+    <div class="sec-sub">Save each screenshot with the exact filename below in the <code>images/audit-flow/</code> folder.</div>
+
+    <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+      <table style="width:100%;border-collapse:collapse;font-size:.85rem;">
+        <thead>
+          <tr style="background:var(--gray800);color:#fff;">
+            <th style="padding:10px 16px;text-align:left;">#</th>
+            <th style="padding:10px 16px;text-align:left;">Image</th>
+            <th style="padding:10px 16px;text-align:left;">Save As Filename</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">1</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">MCB Mapping Table Example</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);"><code>01-mcb-mapping-table.png</code></td></tr>
+          <tr style="background:var(--gray50);"><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">2</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">Final Planning Table</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);"><code>11-planning-table.png</code></td></tr>
+          <tr><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">3</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">Clients List (after login)</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);"><code>02-clients-list.png</code></td></tr>
+          <tr style="background:var(--gray50);"><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">4</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">Search "Pressto"</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);"><code>03-search-client.png</code></td></tr>
+          <tr><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">5</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">Locations/Stores List</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);"><code>04-locations-list.png</code></td></tr>
+          <tr style="background:var(--gray50);"><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">6</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">Site Audit Progress</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);"><code>05-site-audit-progress.png</code></td></tr>
+          <tr><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">7</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">Start Audit Button</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);"><code>06-start-audit.png</code></td></tr>
+          <tr style="background:var(--gray50);"><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">8</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">MCB Mapping Panels</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);"><code>07-mcb-mapping-panels.png</code></td></tr>
+          <tr><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">9</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">Panel MCBs Grid</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);"><code>08-panel-mcbs.png</code></td></tr>
+          <tr style="background:var(--gray50);"><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">10</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);">MCB Detail (equipment linked)</td><td style="padding:8px 16px;border-bottom:1px solid var(--gray100);"><code>09-mcb-detail.png</code></td></tr>
+          <tr><td style="padding:8px 16px;">11</td><td style="padding:8px 16px;">End Audit Button</td><td style="padding:8px 16px;"><code>10-end-audit.png</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>AI Energy Meter — Installation Planning Visual Walkthrough &mdash; KlimaShift (Avrio Energy)</p>
+  <p style="margin-top:8px;">
+    <a href="hw-overview.html">Overview</a>
+    <a href="hw-procurement.html">Procurement</a>
+    <a href="installation-guide.html">Installation</a>
+    <a href="installation-planning-complete.html">Planning</a>
+    <a href="installation-planning-visual.html">Visual Guide</a>
+  </p>
+</div>
+
+</body>
+</html>

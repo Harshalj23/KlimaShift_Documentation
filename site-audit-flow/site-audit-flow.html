@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site Audit Flow — KlimaShift Operations App</title>
+<style>
+:root{--bg:#f0f2f5;--card:#fff;--blue:#4361ee;--blue-light:#eef0ff;--green:#10b981;--green-light:#ecfdf5;--orange:#f59e0b;--orange-light:#fffbeb;--red:#ef4444;--red-light:#fef2f2;--purple:#8b5cf6;--purple-light:#f5f3ff;--gray50:#f9fafb;--gray100:#f3f4f6;--gray200:#e5e7eb;--gray300:#d1d5db;--gray400:#9ca3af;--gray500:#6b7280;--gray600:#4b5563;--gray700:#374151;--gray800:#1f2937;--gray900:#111827;--shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);--shadow-md:0 4px 6px rgba(0,0,0,.1),0 2px 4px rgba(0,0,0,.06);--shadow-lg:0 10px 15px rgba(0,0,0,.1),0 4px 6px rgba(0,0,0,.05);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--gray800);line-height:1.6;}
+.hero{background:linear-gradient(135deg,var(--blue),#7c3aed);color:#fff;padding:48px 24px 36px;text-align:center;}
+.hero h1{font-size:1.8rem;font-weight:800;margin-bottom:8px;}
+.hero p{opacity:.9;font-size:.95rem;max-width:600px;margin:0 auto;}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:20px;font-size:.8rem;margin-top:12px;font-weight:600;}
+.container{max-width:900px;margin:0 auto;padding:24px 16px 60px;}
+.sec{background:var(--card);border-radius:16px;padding:28px 24px;margin-bottom:24px;box-shadow:var(--shadow);}
+.sec h2{font-size:1.2rem;font-weight:700;margin-bottom:16px;color:var(--gray900);display:flex;align-items:center;gap:8px;}
+.sec h2 .icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;}
+.instr{background:var(--gray50);border:1px solid var(--gray200);border-radius:10px;padding:14px 16px;font-size:.88rem;line-height:1.7;color:var(--gray700);}
+.instr strong{color:var(--gray900);}
+.instr ul{margin:6px 0 0 18px;}
+.warn{background:#fef3c7;border:1px solid #fbbf24;border-radius:10px;padding:14px 16px;font-size:.88rem;color:#92400e;margin-top:12px;}
+.warn strong{color:#78350f;}
+.tip{background:var(--blue-light);border:1px solid #c7d2fe;border-radius:10px;padding:14px 16px;font-size:.88rem;color:#1e40af;margin-top:12px;}
+.tip strong{color:#1e3a8a;}
+iPhone-box{background:#1a1a2e;border:2px solid #6366f1;border-radius:14px;padding:20px;margin:16px 0;color:#e0e7ff;}
+ iPhone-box h4{color:#a5b4fc;font-size:.9rem;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+ .iPhone-box .step{background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:.85rem;line-height:1.6;}
+ .iPhone-box .step .num{background:#6366f1;color:#fff;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;margin-right:8px;flex-shrink:0;}
+ .iPhone-box .step .num.green{background:#10b981;}
+ .iPhone-box .step .num.orange{background:#f59e0b;}
+.meter-label{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 10px;border-radius:12px;text-transform:uppercase;letter-spacing:.5px;}
+ .meter-label.green{background:var(--green-light);color:#065f46;}
+ .meter-label.orange{background:var(--orange-light);color:#92400e;}
+ .meter-label.blue{background:var(--blue-light);color:#1e40af;}
+ .meter-label.purple{background:var(--purple-light);color:#5b21b6;}
+ .meter-label.red{background:var(--red-light);color:#991b1b;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:600px){.grid-2{grid-template-columns:1fr;}}
+.phone{background:var(--gray100);border:1px solid var(--gray200);border-radius:12px;padding:16px;text-align:center;}
+.phone img{max-width:100%;border-radius:8px;margin-bottom:8px;}
+.phone .cap{font-size:.78rem;color:var(--gray500);}
+.table-wrap{overflow-x:auto;margin:12px 0;}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:.85rem;}
+.table-wrap th{background:var(--gray100);padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--gray200);}
+.table-wrap td{padding:10px 12px;border-bottom:1px solid var(--gray100);}
+.flow-section{border-left:3px solid var(--blue);padding-left:20px;margin:20px 0 20px 12px;}
+.flow-section h3{font-size:1rem;font-weight:700;color:var(--blue);margin-bottom:12px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Site Audit Flow</h1>
+  <p>Step-by-step guide for performing a complete site audit using the <strong>KlimaShift Operations App</strong></p>
+  <div class="badge">KlimaShift Operations App — iPhone Required for 3D Scan</div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- REQUIREMENTS                                                   -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<div class="sec">
+  <h2><span class="icon" style="background:#fef3c7;color:#d97706;">⚠</span> Requirements — Before You Begin</h2>
+
+  <div class="warn" style="margin-bottom:16px;">
+    <strong>Safety First!</strong> Always wear proper safety equipment before performing any electrical work. Never touch live wires without proper PPE.
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <!-- Devices -->
+    <div style="background:var(--blue-light);border:1px solid #c7d2fe;border-radius:12px;padding:16px;">
+      <h4 style="color:#1e40af;font-size:.9rem;margin-bottom:10px;">Devices</h4>
+      <ul style="margin:0;padding-left:18px;font-size:.88rem;color:var(--gray700);line-height:1.8;">
+        <li><strong>iPhone</strong> (12 or newer with LiDAR) — for 3D room scanning</li>
+        <li><strong>Android Phone</strong> — for KlimaShift Operations App (all other tasks)</li>
+        <li><strong>Multimeter</strong> — for finding MCB phase and checking voltage</li>
+      </ul>
+    </div>
+
+    <!-- Tools -->
+    <div style="background:var(--orange-light);border:1px solid #fcd34d;border-radius:12px;padding:16px;">
+      <h4 style="color:#92400e;font-size:.9rem;margin-bottom:10px;">Tools</h4>
+      <ul style="margin:0;padding-left:18px;font-size:.88rem;color:var(--gray700);line-height:1.8;">
+        <li><strong>Tester</strong> — for checking live/neutral connections</li>
+        <li><strong>Screwdriver Set</strong> — for opening panel covers and terminals</li>
+        <li><strong>Wire Strippers</strong> — if needed for any wiring work</li>
+      </ul>
+    </div>
+
+    <!-- Safety Equipment -->
+    <div style="background:var(--red-light);border:1px solid #fca5a5;border-radius:12px;padding:16px;">
+      <h4 style="color:#991b1b;font-size:.9rem;margin-bottom:10px;">Safety Equipment (PPE)</h4>
+      <ul style="margin:0;padding-left:18px;font-size:.88rem;color:var(--gray700);line-height:1.8;">
+        <li><strong>Safety Gloves</strong> — insulated rubber gloves for electrical work</li>
+        <li><strong>Safety Shoes</strong> — electrically insulated footwear</li>
+        <li><strong>Safety Goggles</strong> — eye protection from sparks or debris</li>
+        <li><strong>Hard Hat</strong> — head protection in industrial areas</li>
+        <li><strong>Insulated Mat</strong> — stand on while working on live panels</li>
+      </ul>
+    </div>
+
+    <!-- Documentation -->
+    <div style="background:var(--green-light);border:1px solid #a7f3d0;border-radius:12px;padding:16px;">
+      <h4 style="color:#065f46;font-size:.9rem;margin-bottom:10px;">Documentation & Others</h4>
+      <ul style="margin:0;padding-left:18px;font-size:.88rem;color:var(--gray700);line-height:1.8;">
+        <li><strong>Google Sheet Access</strong> — for recording audit data</li>
+        <li><strong>Site Access Permission</strong> — client authorization letter if required</li>
+        <li><strong>Notepad/Pen</strong> — for quick notes during audit</li>
+        <li><strong>Flashlight</strong> — for dark areas and panel inspection</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn" style="margin-top:16px;">
+    <strong>Electrical Safety Rules:</strong>
+    <ul style="margin:6px 0 0 18px;">
+      <li>Never work on live panels without proper safety equipment</li>
+      <li>Always inform site personnel before switching MCBs on/off</li>
+      <li>Keep one hand in pocket when testing live circuits (avoid current path through heart)</li>
+      <li>Disconnect power before opening panel covers if possible</li>
+      <li>If unsure about any electrical work, consult a qualified electrician</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- PART A: CLIENT & BUILDING SELECTION                           -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<div class="sec">
+  <h2><span class="icon" style="background:var(--blue-light);color:var(--blue);">A</span> Part A — Client & Building Selection</h2>
+  
+  <div class="instr">
+    <strong>Goal:</strong> Log into the KlimaShift Operations App, find the correct client and building, and start the audit.
+  </div>
+
+  <!-- Step 1 -->
+  <div style="margin-top:20px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label blue">Step 1</span> Open KlimaShift Operations App & Log In
+    </h3>
+    <div class="instr">
+      Open the <strong>KlimaShift Operations App</strong> on your phone. Log in using your credentials. After successful login, the <strong>Clients page</strong> will open showing a list of all clients.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/1.png" alt="Clients Page" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">1.png — Clients page after login</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label blue">Step 2</span> Search for the Client
+    </h3>
+    <div class="instr">
+      Use the <strong>search bar</strong> at the top to search for the client name. Tap on the correct client from the results.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/2.png" alt="Search Client" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">2.png — Search for client</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label blue">Step 3</span> Search for the Building
+    </h3>
+    <div class="instr">
+      After selecting the client, search for the <strong>building</strong> for which the audit needs to be performed. Tap on the correct building.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/3.png" alt="Search Building" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">3.png — Search for the building</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label blue">Step 4</span> Open Building Audit Progress
+    </h3>
+    <div class="instr">
+      The building page will open. Tap on <strong>"Audit Progress"</strong> to view the audit status and begin the audit process.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/4.png" alt="Audit Progress" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">4.png — Tap on Audit Progress</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label blue">Step 5</span> Start the Audit
+    </h3>
+    <div class="instr">
+      Tap on <strong>"Start Audit"</strong> to begin the audit process.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/5.png" alt="Start Audit" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">5.png — Tap on Start Audit</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 6 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 6</span> Grant Audio Recording Permission
+    </h3>
+    <div class="instr">
+      The app will request <strong>permission to record audio</strong>. This is required for voice notes during the audit. Tap <strong>"Allow"</strong> or <strong>"OK"</strong> to grant permission.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/6.png" alt="Audio Permission" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">6.png — Grant audio recording permission</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 7 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label blue">Step 7</span> Select Building Audit
+    </h3>
+    <div class="instr">
+      Tap on <strong>"Building Audit"</strong> to proceed with the building-level audit.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/7.png" alt="Building Audit" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">7.png — Tap on Building Audit</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 8 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 8</span> Grant Approximate Location Permission
+    </h3>
+    <div class="instr">
+      The app will request <strong>access to approximate location</strong>. This is needed to capture the building's GPS coordinates. Tap <strong>"Allow"</strong> or <strong>"Allow while using app"</strong>.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/8.png" alt="Location Permission" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">8.png — Grant location permission</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- PART B: BUILDING DETAILS & ORIENTATION                        -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<div class="sec">
+  <h2><span class="icon" style="background:var(--green-light);color:var(--green);">B</span> Part B — Building Details & Orientation</h2>
+
+  <!-- Step 9 -->
+  <div style="margin-top:12px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 9</span> Enter Building Details
+    </h3>
+    <div class="instr">
+      The Building Audit page will open. Tap the <strong>pencil icon</strong> on the top right corner to edit building details. Enter/update:
+      <ul>
+        <li><strong>Building Name</strong></li>
+        <li><strong>Floor Area</strong> (in sq ft or sq m)</li>
+        <li><strong>Building Type</strong> (Commercial, Residential, Industrial, etc.)</li>
+      </ul>
+      Then tap <strong>"Update"</strong>.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/9.png" alt="Building Details" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">9.png — Enter building details (tap pencil icon)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 10 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 10</span> Update Location (if needed)
+    </h3>
+    <div class="instr">
+      If the location needs to be updated, tap on the location section. The app will <strong>auto-fill location details</strong> (latitude, longitude, address) if location permissions are granted.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/10.png" alt="Update Location" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">10.png — Auto-filled location details</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 11 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 11</span> Save Changes
+    </h3>
+    <div class="instr">
+      After entering all details, tap <strong>"Save Changes"</strong> to save the building information.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/11.png" alt="Save Changes" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">11.png — Tap on Save Changes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 12 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 12</span> Continue to Orientation
+    </h3>
+    <div class="instr">
+      After saving, tap <strong>"Continue to Orientation"</strong> to proceed to the building orientation phase.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/12.png" alt="Continue to Orientation" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">12.png — Tap on Continue to Orientation</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- PART C: STORE FRONT PHOTO                                     -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<div class="sec">
+  <h2><span class="icon" style="background:var(--orange-light);color:var(--orange);">C</span> Part C — Store Front Photo</h2>
+
+  <div class="instr">
+    <strong>Goal:</strong> Capture the front photo of the store/site.
+  </div>
+
+  <!-- Step 13 -->
+  <div style="margin-top:16px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 13</span> Lock Front & Take Photo
+    </h3>
+    <div class="instr">
+      Stand <strong>in front of the store</strong>, facing the entrance. Tap <strong>"Lock Front & Take Photo"</strong> to capture the store front.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/13.png" alt="Lock Front" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">13.png — Tap on Lock Front & Take Photo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 14 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 14</span> Grant Camera Permission
+    </h3>
+    <div class="instr">
+      The app will request <strong>permission to take pictures and videos</strong>. Tap <strong>"Allow"</strong> to grant camera access.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/14.png" alt="Camera Permission" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">14.png — Grant camera permission</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 15 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 15</span> Capture & Save Store Front Photo
+    </h3>
+    <div class="instr">
+      Take a photo of the <strong>front of the store</strong>. After capturing, tap <strong>"Save Photo"</strong> to save.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/15.png" alt="Save Photo" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">15.png — Tap on Save Photo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 16 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 16</span> Side Images (Optional)
+    </h3>
+    <div class="instr">
+      If possible, take <strong>side images</strong> of the store from different angles. If not possible, tap <strong>"Skip"</strong> at the bottom to proceed.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/16.png" alt="Skip Side Images" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">16.png — Tap Skip if side images not possible</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- PART D: 3D SCAN (iPhone Required)                             -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<div class="sec">
+  <h2><span class="icon" style="background:var(--purple-light);color:var(--purple);">D</span> Part D — 3D Room Scan <span class="meter-label purple" style="margin-left:8px;">iPhone Required</span></h2>
+
+  <div class="iPhone-box">
+    <h4>iPhone Requirement</h4>
+    <div class="step">
+      <span class="num orange">!</span> <strong>3D scanning requires an iPhone with LiDAR or ARKit support.</strong> Android phones cannot perform 3D scans. Use an iPhone 12 or newer for best results.
+    </div>
+  </div>
+
+  <div class="instr">
+    <strong>Goal:</strong> Take 3D scans of all rooms in the store (dining area, kitchen, store room, etc.). Each room must be scanned separately.
+  </div>
+
+  <!-- Step 17 -->
+  <div style="margin-top:16px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label purple">Step 17</span> Start 3D Scan
+    </h3>
+    <div class="instr">
+      Tap <strong>"Start Scan"</strong> to begin the 3D scanning process. Follow the instructions shown on the device — you will need to slowly pan the phone around the room.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/17.png" alt="Start Scan" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">17.png — Tap on Start Scan</div>
+      </div>
+    </div>
+
+    <div class="iPhone-box" style="margin-top:16px;">
+      <h4>3D Scan Instructions</h4>
+      <div class="step">
+        <span class="num">1</span> Hold the iPhone at chest height, facing the room.
+      </div>
+      <div class="step">
+        <span class="num">2</span> Slowly pan the phone left to right, capturing the entire room.
+      </div>
+      <div class="step">
+        <span class="num">3</span> Tilt the phone up and down to capture ceiling and floor.
+      </div>
+      <div class="step">
+        <span class="num">4</span> Walk slowly around the room while scanning.
+      </div>
+      <div class="step">
+        <span class="num">5</span> Avoid sudden movements — keep the scan smooth.
+      </div>
+      <div class="step">
+        <span class="num green">✓</span> The app will indicate when the scan is complete.
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 18 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label purple">Step 18</span> Name the Room
+    </h3>
+    <div class="instr">
+      Once the 3D scan is complete, <strong>name the room</strong> (e.g., "Dining Area", "Kitchen", "Store Room", "Office", etc.).
+    </div>
+  </div>
+
+  <!-- Step 19 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label purple">Step 19</span> Save and Continue
+    </h3>
+    <div class="instr">
+      Tap <strong>"Save and Continue"</strong> to save the 3D scan for this room.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/19.png" alt="Save and Continue" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">19.png — Tap on Save and Continue</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 20 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label purple">Step 20</span> Add More Rooms (Repeat for All Rooms)
+    </h3>
+    <div class="instr">
+      If there are more rooms to scan, tap <strong>"Add New Room"</strong> and repeat Steps 17–19 for each room. Take 3D scans of <strong>all rooms</strong> in the store.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/20.png" alt="Add New Room" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">20.png — Tap Add New Room for each additional room</div>
+      </div>
+    </div>
+
+    <div class="warn" style="margin-top:12px;">
+      <strong>Important:</strong> Every room must be scanned separately. Do not skip any room — incomplete scans will affect the energy audit analysis.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- PART E: ASSET AUDIT                                           -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<div class="sec">
+  <h2><span class="icon" style="background:var(--green-light);color:var(--green);">E</span> Part E — Asset Audit</h2>
+
+  <div class="instr">
+    <strong>Goal:</strong> Add and verify all electrical assets (equipment) in the store.
+  </div>
+
+  <div style="margin-top:16px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Continue</span> Continue to Asset Audit
+    </h3>
+    <div class="instr">
+      After completing all 3D scans, tap <strong>"Continue to Asset Audit"</strong> to proceed.
+    </div>
+  </div>
+
+  <!-- Step 21 -->
+  <div style="margin-top:20px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 21</span> Add New Asset
+    </h3>
+    <div class="instr">
+      If assets are not already listed, tap <strong>"Add Asset"</strong> on the top right corner to add a new asset.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/21.png" alt="Add Asset" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">21.png — Tap on Add Asset (top right)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 22 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 22</span> Select Asset Type
+    </h3>
+    <div class="instr">
+      Select the type of asset from the list (e.g., AC, Light, Fan, Refrigerator, etc.). Add assets one by one.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/22.png" alt="Select Asset" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">22.png — Select asset type</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 23 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 23</span> Enter Basic Asset Details
+    </h3>
+    <div class="instr">
+      Enter the basic details of the asset:
+      <ul>
+        <li><strong>Asset Name</strong> (e.g., "Cassette AC", "Exhaust Fan")</li>
+        <li><strong>Quantity</strong></li>
+        <li><strong>Any other required fields</strong></li>
+      </ul>
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/23.png" alt="Asset Details" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">23.png — Enter asset details</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 24 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 24</span> Enter Electrical Info & Add Asset
+    </h3>
+    <div class="instr">
+      If electrical information is available (wattage, voltage, etc.), enter it. Then tap <strong>"Add Asset"</strong> to save.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/24.png" alt="Add Asset Button" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">24.png — Enter electrical info, tap Add Asset</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 25 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 25</span> Take Photo of Asset
+    </h3>
+    <div class="instr">
+      Tap <strong>"Take Photo"</strong> to capture a photo of the asset.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/25.png" alt="Take Photo" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">25.png — Tap on Take Photo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 26 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 26</span> Capture Photo
+    </h3>
+    <div class="instr">
+      Tap <strong>"Take Picture"</strong> to capture the image.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/26.png" alt="Take Picture" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">26.png — Tap on Take Picture</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 27 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 27</span> Confirm Photo
+    </h3>
+    <div class="instr">
+      Click the picture of the asset, then tap the <strong>correct/check mark symbol</strong> on the image to confirm.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/27.png" alt="Confirm Photo" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">27.png — Tap check mark to confirm photo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 28 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 28</span> Add Photo to Asset
+    </h3>
+    <div class="instr">
+      Tap <strong>"Add Photo"</strong> to attach the photo to the asset.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/28.png" alt="Add Photo" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">28.png — Tap on Add Photo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 29 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 29</span> Capture Additional Photos
+    </h3>
+    <div class="instr">
+      After the asset is added, tap <strong>"Capture"</strong> on the asset card to add more photos (e.g., rating label, nameplate).
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/29.png" alt="Capture" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">29.png — Tap on Capture for more photos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 30 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 30</span> More Photos
+    </h3>
+    <div class="instr">
+      Tap <strong>"More Photos"</strong> to add additional photos.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/30.png" alt="More Photos" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">30.png — Tap on More Photos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 31 (Camera Icon) -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 31</span> Take Photo of Rating Label
+    </h3>
+    <div class="instr">
+      Tap the <strong>camera icon</strong> at the bottom right corner. Take a photo of the asset's <strong>electrical rating label</strong> (nameplate) if available.
+    </div>
+  </div>
+
+  <!-- Step 32 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 32</span> Upload Photos
+    </h3>
+    <div class="instr">
+      After taking all photos, tap <strong>"Upload"</strong> to upload them.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/32.png" alt="Upload" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">32.png — Tap on Upload</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 33 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 33</span> Verify Uploaded Photos
+    </h3>
+    <div class="instr">
+      You can now see all the uploaded photos for the asset. Verify they are clear and complete.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/33.png" alt="Uploaded Photos" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">33.png — View all uploaded photos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 34 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 34</span> Verify Asset
+    </h3>
+    <div class="instr">
+      Go back by tapping the <strong>back arrow</strong> on the top left corner. On the top right corner, you should see a green <strong>"Verified"</strong> label on the asset. Repeat Steps 21–33 for <strong>all assets</strong>.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/34.png" alt="Verified" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">34.png — Green "Verified" label visible</div>
+      </div>
+    </div>
+
+    <div class="warn" style="margin-top:12px;">
+      <strong>Important:</strong> All assets must show "All assets are verified" before proceeding. If this is not shown, some assets are not verified — go back and complete them.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- PART F: ELECTRICAL PANEL AUDIT                                -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<div class="sec">
+  <h2><span class="icon" style="background:var(--red-light);color:var(--red);">F</span> Part F — Electrical Panel Audit</h2>
+
+  <div class="instr">
+    <strong>Goal:</strong> Add MDBs (Main Distribution Boards), configure MCBs, and map assets to MCBs.
+  </div>
+
+  <!-- Step 35 -->
+  <div style="margin-top:16px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 35</span> Continue to Electrical Panel
+    </h3>
+    <div class="instr">
+      After all assets are verified, tap <strong>"Continue to Electrical Panel"</strong> to proceed.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/35.png" alt="Continue to Electrical Panel" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">35.png — Tap on Continue to Electrical Panel</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 36 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 36</span> Add MDB
+    </h3>
+    <div class="instr">
+      Tap <strong>"Add MDB"</strong> to create a new Main Distribution Board.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/36.png" alt="Add MDB" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">36.png — Tap on Add MDB</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 37 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 37</span> Take Photo of Panel
+    </h3>
+    <div class="instr">
+      Tap <strong>"Take Photo"</strong> to capture a photo of the electrical panel.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/37.png" alt="Take Photo Panel" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">37.png — Tap on Take Photo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 38 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 38</span> Save Panel Photo
+    </h3>
+    <div class="instr">
+      Capture the picture of the panel, then tap <strong>"Save Image"</strong>.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/38.png" alt="Save Image" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">38.png — Tap on Save Image</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 39 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 39</span> Enter Panel Details
+    </h3>
+    <div class="instr">
+      Enter the basic details of the panel:
+      <ul>
+        <li><strong>Panel Name</strong> — Where is the panel located? (e.g., "Main DB - Ground Floor")</li>
+        <li><strong>Description</strong> — What equipment does this panel include? (e.g., "Lights, AC, Fans")</li>
+        <li><strong>Panel Type</strong> (MDB, SMDB, DB, etc.)</li>
+        <li><strong>Phase</strong> (Single Phase, Three Phase)</li>
+        <li><strong>Parent Phase</strong> (if applicable)</li>
+      </ul>
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/39.png" alt="Panel Details" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">39.png — Enter panel details</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 40 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 40</span> Set Location & Manufacturer Info
+    </h3>
+    <div class="instr">
+      Scroll down to the <strong>Location section</strong>. Tap <strong>"Use Current Location"</strong> to auto-capture latitude and longitude. Also add:
+      <ul>
+        <li><strong>Manufacturer Name</strong> (if available)</li>
+        <li><strong>Model</strong> (if available)</li>
+        <li><strong>Installation Year</strong> (if available)</li>
+      </ul>
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/40.png" alt="Location Info" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">40.png — Set location and manufacturer info</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 41 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 41</span> Create Panel
+    </h3>
+    <div class="instr">
+      If needed, record a voice note by tapping <strong>"Start Voice Note"</strong>. After recording, tap <strong>"Stop Voice Note"</strong>. Then tap <strong>"Create Panel"</strong> to save.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/41.png" alt="Create Panel" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">41.png — Tap on Create Panel</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 42 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 42</span> Configure MCBs
+    </h3>
+    <div class="instr">
+      Scroll down and turn on <strong>"Auto Create MCBs"</strong>. Enter:
+      <ul>
+        <li><strong>MCB Count</strong> — Number of MCBs in the panel</li>
+        <li><strong>Ampere Rating</strong> — Rating of the MCBs</li>
+        <li><strong>MCB Type</strong> — Single Pole, Double Pole, Three Pole, or Four Pole</li>
+        <li><strong>Phase Connection</strong> — Phase configuration</li>
+      </ul>
+      <div class="tip" style="margin-top:8px;">
+        <strong>Note:</strong> These settings can be modified later if there is a mix of different ratings and MCB types within the panel.
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/42.png" alt="MCB Config" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">42.png — Configure MCB settings</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 43 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 43</span> MCBs Created
+    </h3>
+    <div class="instr">
+      The app will create the MCBs automatically. You will see the number of MCBs created.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/43.png" alt="MCBs Created" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">43.png — MCBs created in the panel</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 44: Multimeter Section -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 44</span> Configure Each MCB — Find Phase Using Multimeter
+    </h3>
+    <div class="instr">
+      Click on the <strong>1st MCB</strong>. Options will pop up to configure:
+      <ul>
+        <li><strong>Pole Type:</strong> Single Pole (SP), Double Pole (DP), Three Pole (TP), Three Phase + Neutral (TPN)</li>
+        <li><strong>Phase:</strong> Red (A), Yellow (B), Blue (C)</li>
+        <li><strong>Rating:</strong> 6A, 10A, 16A, 20A, 32A, 64A, etc.</li>
+      </ul>
+      Select as per the actual MCB configuration. Physically check the MCB rating printed on it.
+    </div>
+
+    <!-- Multimeter Guide -->
+    <div class="iPhone-box" style="margin-top:16px;">
+      <h4>How to Find MCB Phase Using Multimeter</h4>
+      
+      <div class="step">
+        <span class="num">1</span> <strong>Set Multimeter:</strong> Switch the multimeter roller to <strong>600V AC (~)</strong> — look for the "~" or "V~" symbol on the dial.
+      </div>
+      
+      <div class="step">
+        <span class="num">2</span> <strong>Connect Probes:</strong>
+        <ul style="margin:4px 0 0 18px;">
+          <li>Black probe → <strong>COM port</strong> on the multimeter</li>
+          <li>Red probe → <strong>Voltage (V) port</strong> on the multimeter</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <span class="num">3</span> <strong>Identify Known Phases:</strong> On the TPN (Three Phase + Neutral) distribution, identify the Red (A), Yellow (B), and Blue (C) phases. These are your reference points.
+      </div>
+      
+      <div class="step">
+        <span class="num">4</span> <strong>Test MCB Phase:</strong>
+        <ul style="margin:4px 0 0 18px;">
+          <li>Touch <strong>one probe end</strong> on the MCB's live connection (the wire going into the MCB)</li>
+          <li>Touch <strong>other probe end</strong> on a known phase from TPN (e.g., Red/A phase)</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <span class="num orange">5</span> <strong>Read the Multimeter:</strong>
+        <ul style="margin:4px 0 0 18px;">
+          <li>If reading shows <strong>~420V</strong> → That is NOT the same phase (voltage difference between different phases)</li>
+          <li>Keep the probe on the MCB, change the other probe to Phase B (Yellow)</li>
+          <li>If reading shows <strong>~0V</strong> → The MCB is on <strong>Phase B (Yellow)</strong></li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <span class="num green">✓</span> <strong>Summary:</strong>
+        <ul style="margin:4px 0 0 18px;">
+          <li><strong>~0V reading</strong> = Same phase (MCB is on this phase)</li>
+          <li><strong>~420V reading</strong> = Different phase (MCB is NOT on this phase)</li>
+          <li>Repeat for all MCBs to determine each one's phase</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="phone">
+        <img src="images/44.png" alt="MCB Configuration" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">44.png — Configure each MCB with correct phase and rating</div>
+      </div>
+    </div>
+
+    <div class="warn" style="margin-top:12px;">
+      <strong>Safety Warning:</strong> Be extremely careful when using the multimeter near live electrical connections. Do not touch exposed wires with bare hands. Ensure the multimeter is set to the correct voltage range (600V AC). If unsure, consult a qualified electrician.
+    </div>
+  </div>
+
+  <!-- Step 45 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 45</span> Save Panel & Go Back
+    </h3>
+    <div class="instr">
+      After configuring all MCBs, save the panel configuration. Tap the <strong>back arrow</strong> on the top left to go back. If there are more panels, create them using the same steps (Step 36–44). Once all panels are created, tap the <strong>back arrow</strong> again.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/45.png" alt="Go Back" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">45.png — Tap back arrow when all panels done</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- PART G: MCB MAPPING                                           -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<div class="sec">
+  <h2><span class="icon" style="background:var(--orange-light);color:var(--orange);">G</span> Part G — MCB Mapping</h2>
+
+  <div class="instr">
+    <strong>Goal:</strong> Map each MCB to the equipment it controls by physically switching MCBs on/off.
+  </div>
+
+  <!-- Step 46 -->
+  <div style="margin-top:16px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 46</span> Open MCB Mapping
+    </h3>
+    <div class="instr">
+      Tap on <strong>"MCB Mapping"</strong> to start mapping MCBs to equipment.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/46.png" alt="MCB Mapping" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">46.png — Tap on MCB Mapping</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 47 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 47</span> Select Panel
+    </h3>
+    <div class="instr">
+      Tap on the <strong>top panel</strong> (if there are more than one panel, start with the topmost panel).
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/47.png" alt="Select Panel" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">47.png — Tap on the panel</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 48 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 48</span> Turn Off MCB Physically & Identify Equipment
+    </h3>
+    <div class="instr">
+      <strong>Physically turn OFF MCB 1</strong> on the panel. Then observe on site — <strong>what equipment turns off?</strong> Once you identify the equipment associated with that MCB, go to the app and tap on <strong>MCB1</strong>.
+    </div>
+
+    <div class="iPhone-box" style="margin-top:12px;">
+      <h4>MCB Mapping Process</h4>
+      <div class="step">
+        <span class="num">1</span> Physically go to the electrical panel and turn OFF MCB 1.
+      </div>
+      <div class="step">
+        <span class="num">2</span> Walk through the store and observe what equipment has turned off (lights, AC, fans, etc.).
+      </div>
+      <div class="step">
+        <span class="num">3</span> Note down all equipment that turned off.
+      </div>
+      <div class="step">
+        <span class="num green">✓</span> Go back to the app and map those assets to MCB 1.
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/48.png" alt="Select MCB" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">48.png — Tap on MCB1 in the app</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 49 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 49</span> Add Assets to MCB
+    </h3>
+    <div class="instr">
+      In the app, <strong>click on the assets</strong> that are associated with that MCB to add them. The assets will be linked to the MCB.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/49.png" alt="Add Assets" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">49.png — Click on assets to add them to MCB</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 50 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 50</span> Repeat for All MCBs
+    </h3>
+    <div class="instr">
+      Similarly, perform this task for <strong>all MCBs</strong> — turn off each MCB one by one, identify the equipment, and map them in the app.
+    </div>
+  </div>
+
+  <!-- Step 51 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 51</span> MCBs Marked as Mapped
+    </h3>
+    <div class="instr">
+      Once MCBs are mapped, they will be marked as <strong>"Mapped"</strong> with a green indicator.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/51.png" alt="MCBs Mapped" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">51.png — MCBs marked as Mapped</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 52 (Spare MCBs) -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 52</span> Handle Spare MCBs
+    </h3>
+    <div class="instr">
+      If there are MCBs with <strong>no equipment</strong> connected (spare MCBs), click on the MCB and tap <strong>"Mark as Inactive"</strong>. Then continue further.
+    </div>
+  </div>
+
+  <!-- Step 53 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 53</span> Mark as Inactive
+    </h3>
+    <div class="instr">
+      For spare MCBs, tap <strong>"Mark as Inactive"</strong> to skip them.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/53.png" alt="Mark Inactive" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">53.png — Tap Mark as Inactive for spare MCBs</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 54 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label orange">Step 54</span> Complete Other Panels
+    </h3>
+    <div class="instr">
+      Go back and similarly complete other panels if available. Repeat the MCB mapping process for all panels.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/54.png" alt="Other Panels" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">54.png — Complete mapping for all panels</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- PART H: END AUDIT                                             -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<div class="sec">
+  <h2><span class="icon" style="background:var(--red-light);color:var(--red);">H</span> Part H — End Audit</h2>
+
+  <!-- Step 55 -->
+  <div style="margin-top:12px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 55</span> Go Back & End Audit
+    </h3>
+    <div class="instr">
+      Tap the <strong>back arrow</strong> on the top left. Then tap <strong>"End Audit"</strong>.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/55.png" alt="End Audit" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">55.png — Tap on End Audit</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 56 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label red">Step 56</span> Confirm End Audit
+    </h3>
+    <div class="instr">
+      Tap <strong>"Confirm End"</strong> to finalize and end the audit.
+    </div>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="phone">
+        <img src="images/56.png" alt="Confirm End" onerror="this.parentElement.style.display='none'"/>
+        <div class="cap">56.png — Tap on Confirm End</div>
+      </div>
+    </div>
+
+    <div class="tip" style="margin-top:16px;">
+      <strong>Audit Complete!</strong> The site audit process is now finished. All data (building details, 3D scans, assets, panel configurations, and MCB mappings) has been saved to the KlimaShift platform.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- PART I: POST-AUDIT — METER INSTALLATION PLANNING              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<div class="sec">
+  <h2><span class="icon" style="background:var(--green-light);color:var(--green);">I</span> Part I — Post-Audit: Meter Installation Planning</h2>
+
+  <div class="instr">
+    <strong>Goal:</strong> After completing the app audit, assess the physical site for energy meter installation. Check meter placement, CT mounting points, router connectivity, and measure all required distances.
+  </div>
+
+  <div class="warn" style="margin-top:12px;">
+    <strong>Important:</strong> This section must be completed after the app audit is finished. All measurements should be noted in the Google Sheet or notepad for installation planning.
+  </div>
+
+  <!-- Step 57 -->
+  <div style="margin-top:20px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 57</span> Identify Meter Installation Location
+    </h3>
+    <div class="instr">
+      Look around the site and identify a suitable location where the <strong>energy meter can be installed</strong>. Consider:
+      <ul>
+        <li>Proximity to the electrical panel (for CT connections)</li>
+        <li>Proximity to router/network hub (for communication)</li>
+        <li>Availability of power socket for the meter</li>
+        <li>Protection from weather, water, and physical damage</li>
+        <li>Accessibility for maintenance and readings</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Step 58 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 58</span> Measure Distance: Meter to Panel (CT Mounting Point)
+    </h3>
+    <div class="instr">
+      Measure the <strong>approximate distance</strong> between:
+      <ul>
+        <li><strong>Meter Installation Place</strong> → <strong>Electrical Panel</strong> (where CTs will be mounted)</li>
+      </ul>
+      Use a measuring tape or步测 (pace count) to estimate the distance. Note this distance — it determines the CT cable length required.
+    </div>
+    <div class="tip">
+      <strong>Tip:</strong> If the distance is more than 5 meters, you may need longer CT cables or a different meter placement strategy.
+    </div>
+  </div>
+
+  <!-- Step 59 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 59</span> Check Router & Network Hub Distance
+    </h3>
+    <div class="instr">
+      Locate the <strong>router</strong> and <strong>network hub</strong> on site. Measure the <strong>approximate distance</strong> between:
+      <ul>
+        <li><strong>Meter Installation Place</strong> → <strong>Router/Network Hub</strong></li>
+      </ul>
+      Also check:
+      <ul>
+        <li>Is there a <strong>power socket</strong> near the meter installation place?</li>
+        <li>Is there a <strong>power socket</strong> near the router/network hub?</li>
+        <li>Is there an <strong>Ethernet port</strong> or WiFi coverage at the meter location?</li>
+      </ul>
+      Note all these details for installation planning.
+    </div>
+  </div>
+
+  <!-- Step 60 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 60</span> Inspect Panel for CT Insertion Points
+    </h3>
+    <div class="instr">
+      Open the electrical panel (with permission and safety precautions). Look at the panel and identify:
+      <ul>
+        <li><strong>Where CTs can be inserted</strong> — around the incoming mains cables</li>
+        <li><strong>Cable size</strong> — to select appropriate CT size</li>
+        <li><strong>Space availability</strong> — is there enough room to clamp CTs around the cables?</li>
+        <li><strong>Cable routing</strong> — how will CT cables run from panel to meter?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Step 61 -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:8px;">
+      <span class="meter-label green">Step 61</span> Measure Distance: Meter to CT Incomer
+    </h3>
+    <div class="instr">
+      Measure the <strong>approximate distance</strong> from:
+      <ul>
+        <li><strong>Meter Installation Place</strong> → <strong>CT Incomer Point</strong> (where CTs will be clamped on the panel)</li>
+      </ul>
+      This distance is critical for determining the CT cable length and signal integrity.
+    </div>
+    <div class="warn">
+      <strong>Note:</strong> CT cables should not exceed recommended lengths. If the distance is too long, consider alternative meter placement or consult the technical team.
+    </div>
+  </div>
+
+  <!-- Summary Checklist -->
+  <div style="margin-top:24px;">
+    <h3 style="font-size:.95rem;font-weight:700;color:var(--gray900);margin-bottom:12px;">
+      <span class="meter-label green">Checklist</span> Post-Audit Measurements Summary
+    </h3>
+    <div class="instr">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Measurement</th>
+              <th>Distance (approx.)</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Meter Place → Electrical Panel (CT Mount)</td>
+              <td>_____ meters</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Meter Place → Router/Network Hub</td>
+              <td>_____ meters</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Meter Place → CT Incomer Point</td>
+              <td>_____ meters</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Power Socket at Meter Place?</td>
+              <td>Yes / No</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Power Socket at Router/Hub?</td>
+              <td>Yes / No</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>WiFi/Ethernet Available at Meter Place?</td>
+              <td>Yes / No</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>CT Cable Length Required</td>
+              <td>_____ meters</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- QUICK REFERENCE                                               -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<div class="sec">
+  <h2><span class="icon" style="background:var(--blue-light);color:var(--blue);">📋</span> Quick Reference — Audit Flow Summary</h2>
+  
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Part</th>
+          <th>Steps</th>
+          <th>Description</th>
+          <th>Device</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="meter-label blue">A</span></td>
+          <td>1–8</td>
+          <td>Client & Building Selection, Permissions</td>
+          <td>Phone</td>
+        </tr>
+        <tr>
+          <td><span class="meter-label green">B</span></td>
+          <td>9–12</td>
+          <td>Building Details & Orientation</td>
+          <td>Phone</td>
+        </tr>
+        <tr>
+          <td><span class="meter-label orange">C</span></td>
+          <td>13–16</td>
+          <td>Store Front Photo</td>
+          <td>Phone</td>
+        </tr>
+        <tr>
+          <td><span class="meter-label purple">D</span></td>
+          <td>17–20</td>
+          <td>3D Room Scan</td>
+          <td><strong>iPhone</strong></td>
+        </tr>
+        <tr>
+          <td><span class="meter-label green">E</span></td>
+          <td>21–34</td>
+          <td>Asset Audit (Add & Verify Assets)</td>
+          <td>Phone</td>
+        </tr>
+        <tr>
+          <td><span class="meter-label red">F</span></td>
+          <td>35–45</td>
+          <td>Electrical Panel Audit (MDB, MCB Config)</td>
+          <td>Phone + Multimeter</td>
+        </tr>
+        <tr>
+          <td><span class="meter-label orange">G</span></td>
+          <td>46–54</td>
+          <td>MCB Mapping (Switch MCBs, Map Assets)</td>
+          <td>Phone</td>
+        </tr>
+        <tr>
+          <td><span class="meter-label red">H</span></td>
+          <td>55–56</td>
+          <td>End Audit</td>
+          <td>Phone</td>
+        </tr>
+        <tr>
+          <td><span class="meter-label green">I</span></td>
+          <td>57–61</td>
+          <td>Post-Audit: Meter Installation Planning</td>
+          <td>Measuring Tape</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warn" style="margin-top:16px;">
+    <strong>Equipment Needed:</strong>
+    <ul style="margin:6px 0 0 18px;">
+      <li><strong>iPhone</strong> (12 or newer with LiDAR) — for 3D scanning</li>
+      <li><strong>Multimeter</strong> — for finding MCB phase</li>
+      <li><strong>Camera/Phone</strong> — for photos of assets and panels</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- /container -->
+</body>
+</html>
