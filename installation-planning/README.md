@@ -16,9 +16,9 @@ Visual walkthrough and technical SOP for IoT energy meter installation planning 
 
 ## Quick Links
 
-- [Visual Walkthrough](installation-planning-visual.html)
-- [Complete Guide](installation-planning-complete.html)
-- [Phase 1 & 2](installation-planning-flow.html)
+- [Visual Walkthrough](https://harshalj23.github.io/KlimaShift_Documentation/installation-planning/installation-planning-visual.html)
+- [Complete Guide](https://harshalj23.github.io/KlimaShift_Documentation/installation-planning/installation-planning-complete.html)
+- [Phase 1 & 2](https://harshalj23.github.io/KlimaShift_Documentation/installation-planning/installation-planning-flow.html)
 
 ## System Overview
 

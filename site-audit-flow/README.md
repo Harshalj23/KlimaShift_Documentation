@@ -12,7 +12,7 @@ Step-by-step guide for performing a complete site audit using the KlimaShift Ope
 
 ## Quick Link
 
-- [Site Audit Flow](site-audit-flow.html)
+- [Site Audit Flow](https://harshalj23.github.io/KlimaShift_Documentation/site-audit-flow/site-audit-flow.html)
 
 ## Audit Flow Summary
 
